@@ -50,5 +50,32 @@ public class ReservationApiTest {
                 .statusCode(204);
     }
 
+    @Test
+    @DisplayName("이미 예약된 시간에 예약 시도 시 400 상태코드를 반환한다")
+    void createDuplicateReservationReturns400Test() {
+        // 첫 번째 예약 생성
+        Map<String, String> params = new HashMap<>();
+        params.put("name", "첫번째예약");
+        params.put("date", LocalDate.now().plusDays(3).toString());
+        params.put("timeId", "1");
+        params.put("themeId", "2");
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/reservations")
+                .then()
+                .statusCode(201);
+
+        // 동일한 날짜/시간/테마로 두 번째 예약 시도
+        params.put("name", "두번째예약");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/reservations")
+                .then().log().all()
+                .statusCode(400);  // 중복 예약 시도는 실패해야 함
+    }
 
 }

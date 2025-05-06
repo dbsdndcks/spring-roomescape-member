@@ -56,7 +56,11 @@ public class JdbcReservationRepository implements ReservationRepository {
             return ps;
         }, keyHolder);
 
-        long generatedId = keyHolder.getKey().longValue();
+        Number key = keyHolder.getKey();
+        if (key == null) {
+            throw new IllegalArgumentException("예약 저장 후 PK 생성에 실패했습니다.");
+        }
+        long generatedId = key.longValue();
 
         return Reservation.afterSave(
                 generatedId,

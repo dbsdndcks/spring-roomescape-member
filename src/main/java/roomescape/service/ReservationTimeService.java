@@ -1,6 +1,7 @@
 package roomescape.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import roomescape.entity.ReservationTime;
 import roomescape.exception.impl.ConnectedReservationExistException;
 import roomescape.exception.impl.HasDuplicatedTimeException;
@@ -57,6 +58,7 @@ public class ReservationTimeService {
         return reservationTimeRepository.getAvailableReservationTimeOf(date, themeId);
     }
 
+    @Transactional
     public boolean delete(final long id) {
         boolean isReservationExistInTime = reservationRepository.existByTimeId(id);
         if (isReservationExistInTime) {

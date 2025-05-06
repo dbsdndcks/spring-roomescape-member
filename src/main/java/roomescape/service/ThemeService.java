@@ -1,6 +1,7 @@
 package roomescape.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import roomescape.entity.Theme;
 import roomescape.exception.impl.ThemeNotFoundException;
 import roomescape.repository.ThemeRepository;
@@ -14,13 +15,13 @@ public class ThemeService {
     private static final int AGGREGATE_START_DATE_INTERVAL = 7;
     private static final int AGGREGATE_END_DATE_INTERVAL = 1;
     private static final int AGGREGATE_COUNT = 10;
-    
+
     private final ThemeRepository themeRepository;
 
     public ThemeService(ThemeRepository themeRepository) {
         this.themeRepository = themeRepository;
     }
-
+    
     public Theme add(final String name, final String description, final String thumbnail) {
         Theme theme = Theme.beforeSave(name, description, thumbnail);
         return themeRepository.save(theme);
@@ -29,6 +30,7 @@ public class ThemeService {
     public List<Theme> getAllThemes() {
         return themeRepository.findAll();
     }
+
 
     public List<Theme> getPopularThemes() {
         LocalDate now = LocalDate.now();
@@ -39,6 +41,7 @@ public class ThemeService {
         );
     }
 
+    @Transactional
     public void deleteById(final long id) {
         boolean exist = themeRepository.existById(id);
         if (!exist) {

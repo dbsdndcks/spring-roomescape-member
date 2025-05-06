@@ -11,6 +11,7 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
     @ExceptionHandler(RootException.class)
     public ResponseEntity<ErrorResponse> handle(RootException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.badRequest(e));
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
         List<FieldErrorResponse> fieldErrorResponses = bindingResult.getFieldErrors().stream()
                 .map(fieldError -> new FieldErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
                 .toList();
-        
+
         return ResponseEntity.badRequest().body(ErrorResponse.badRequest(e, fieldErrorResponses));
     }
 

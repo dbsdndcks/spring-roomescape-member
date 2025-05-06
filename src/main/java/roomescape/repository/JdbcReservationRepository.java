@@ -85,11 +85,9 @@ public class JdbcReservationRepository implements ReservationRepository {
                      t.name as theme_name,
                      t.description as theme_description,
                      t.thumbnail as theme_thumbnail
-                    FROM reservation as r
-                    INNER JOIN reservation_time as rt
-                    INNER JOIN theme as t
-                    ON r.time_id = rt.id
-                    ON r.theme_id = t.id
+                    FROM reservation r
+                    INNER JOIN reservation_time rt ON r.time_id = rt.id
+                    INNER JOIN theme t ON r.theme_id = t.id
                     WHERE r.id = ?
                     """;
 
@@ -98,6 +96,7 @@ public class JdbcReservationRepository implements ReservationRepository {
             return null;
         }
     }
+
 
     @Override
     public List<Reservation> findAll() {
@@ -113,13 +112,12 @@ public class JdbcReservationRepository implements ReservationRepository {
                  t.description as theme_description,
                  t.thumbnail as theme_thumbnail
                 FROM reservation as r
-                INNER JOIN reservation_time as rt
-                INNER JOIN theme as t
-                ON r.time_id = rt.id
-                ON r.theme_id = t.id
+                INNER JOIN reservation_time as rt ON r.time_id = rt.id
+                INNER JOIN theme as t ON r.theme_id = t.id
                 """;
         return jdbcTemplate.query(sql, ROW_MAPPER);
     }
+
 
     @Override
     public boolean existByTimeId(final long id) {

@@ -19,6 +19,6 @@ VALUES
 -- theme_id 2에 예약 3건 (각 날짜 다르게)
 INSERT INTO reservation (name, date, time_id, theme_id)
 VALUES
-  ('김영희', '2025-04-24', 1, 2),
+  ('김영희', '2025-05-04', 1, 2),
   ('박철수', '2025-04-25', 1, 2),
   ('이민정', '2025-04-26', 1, 2);

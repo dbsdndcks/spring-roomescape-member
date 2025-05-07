@@ -32,12 +32,12 @@ public record ErrorResponse(
         );
     }
 
-    public static ErrorResponse internalServerError(Exception e) {
+    public static ErrorResponse internalServerError(Exception e, String message) {
         return new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 e.getClass().getSimpleName(),
-                e.getMessage(),
+                message,
                 null
         );
     }
